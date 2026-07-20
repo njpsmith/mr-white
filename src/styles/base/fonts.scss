@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "Geist";
+  src: url("../assets/fonts/Geist-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+// $primaryjoe: #2563eb;
+
+// h1 {
+//   color: $primaryjoe !important;
+// }
+
+body {
+  font-family: "Geist", sans-serif;
+}
+
+h1,
+h2 {
+  font-weight: 500;
+  // color: var(--text-h);
+}
