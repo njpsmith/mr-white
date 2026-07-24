@@ -16,8 +16,28 @@ export const words: WordCategory[] = [
     name: "Specific to Castiglioncello Crew",
     words: [
       {
-        civilianWord: "Italy",
+        civilianWord: "Tuscany",
         undercoverWord: "Sicily",
+      },
+      {
+        civilianWord: "Provolone",
+        undercoverWord: "Prosciutto",
+      },
+      {
+        civilianWord: "Parmesan",
+        undercoverWord: "Grana Padano",
+      },
+      {
+        civilianWord: "Witches",
+        undercoverWord: "Wizard",
+      },
+      {
+        civilianWord: "Pompino",
+        undercoverWord: "Bacio",
+      },
+      {
+        civilianWord: "Masculine",
+        undercoverWord: "Feminine",
       },
     ],
   },

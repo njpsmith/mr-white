@@ -7,8 +7,8 @@ const Navbar = () => {
       <div className="wrapper flex items-center justify-between">
         <Link to="/">
           <div className="logo flex items-center gap-3">
-            <img src={logo} alt="Mr White Logo" width="40" />
-            Mr. White
+            <img src={logo} alt="Mr White Logo" width="34" />
+            <div className="sm:block hidden">Mr. White</div>
           </div>
         </Link>
         <nav className="flex gap-8 items-center">
@@ -18,9 +18,9 @@ const Navbar = () => {
           <Link to="/play" className="text-sm">
             Play
           </Link>
-          <Link to="/about" className="text-sm">
-            About
-          </Link>
+          <a href="#how-to-play" className="text-sm">
+            How to play
+          </a>
         </nav>
       </div>
     </div>
