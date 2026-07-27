@@ -20,6 +20,8 @@
 
   --color-hairline: #ebebeb;
 
+  --spacing: 0.25rem;
+
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;

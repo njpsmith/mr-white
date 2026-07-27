@@ -205,7 +205,7 @@ export const words: WordCategory[] = [
       },
       {
         civilianWord: "Sushi",
-        undercoverWord: "Sashimi",
+        undercoverWord: "Ramen",
       },
       {
         civilianWord: "Burger",
