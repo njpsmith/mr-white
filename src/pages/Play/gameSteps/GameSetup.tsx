@@ -8,6 +8,7 @@ const GameSetup = ({
   categories,
   toggleCategory,
   startRound,
+  selectWord,
 }: {
   playerCount: number;
   categories: string[];
@@ -65,7 +66,10 @@ const GameSetup = ({
         <div className="card-soft mt-6">
           <div className="flex items-baseline justify-between">
             <label htmlFor="Categories" className="font-medium text-ink">
-              Categories <span className="text-mute">(10) selected</span>
+              Categories{" "}
+              <span className="text-mute">
+                ({selectedCategories.length} selected)
+              </span>
             </label>
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -90,7 +94,8 @@ const GameSetup = ({
           className="btn btn-primary w-full mt-8"
           onClick={() => {
             startRound();
-            console.log("selectedCategories", selectedCategories);
+            selectWord();
+            // console.log("selectedCategories", selectedCategories);
           }}
         >
           Start round →

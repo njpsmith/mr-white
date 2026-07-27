@@ -1,13 +1,4 @@
-type WordPair = {
-  civilianWord: string;
-  undercoverWord: string;
-};
-
-type WordCategory = {
-  id: string;
-  name: string;
-  words: WordPair[];
-};
+import type { WordPair, WordCategory } from "../types/types";
 
 export const words: WordCategory[] = [
   // Specifics

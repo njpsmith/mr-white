@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { categories } from "../../constants/categories";
 import GameSetup from "./gameSteps/GameSetup";
 import AssignRolesAndWords from "./gameSteps/AssignRolesAndWords";
-import type { GameStage } from "../../types/types";
+import type { GameStage, WordPair, WordCategory } from "../../types/types";
+import { words } from "../../services/wordsApi";
 
 const Play = () => {
   const [playerCount, setPlayerCount] = useState(2);
@@ -80,6 +81,43 @@ const Play = () => {
     }
   };
 
+  const getRandomItem = (array) => {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];
+  };
+
+  //////
+  function getWordsFromSelectedCategories(
+    categories: WordCategory[],
+    selectedCategories: string[],
+  ): WordPair[] {
+    return categories
+      .filter((category) => selectedCategories.includes(category.id))
+      .flatMap((category) => category.words);
+  }
+
+  const selectWord = () => {
+    // Filter word list to include only selected categories
+    const filteredWords = words.filter((category) =>
+      selectedCategories.includes(category.id),
+    );
+
+    // Flatten the words array to remove categories
+    const availableWords = getWordsFromSelectedCategories(
+      words,
+      selectedCategories,
+    );
+
+    // Now select a random word for this category
+    const selectedWord = getRandomItem(availableWords);
+
+    console.log("selectedWord", selectedWord);
+  };
+
+  // useEffect(() => {
+  //   console.log("tyaya", selectedCategories);
+  // }, [selectedCategories]);
+
   return (
     <>
       {gameStep === "stage_1_setup" && (
@@ -90,6 +128,7 @@ const Play = () => {
           categories={categories}
           toggleCategory={toggleCategory}
           startRound={nextStep}
+          selectWord={selectWord}
         />
       )}
 
