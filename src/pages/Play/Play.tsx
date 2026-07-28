@@ -12,11 +12,10 @@ import type {
 import { words } from "../../services/wordsApi";
 
 const Play = () => {
-  // Delete
-  const [playerCount, setPlayerCount] = useState(6);
+  const [playerCount, setPlayerCount] = useState(2); // Controlled input field
 
   // Delete
-  const [playerNames, setPlayerNames] = useState([]);
+  // const [playerNames, setPlayerNames] = useState([]);
 
   const [players, setPlayers] = useState<Player[]>([]);
 
@@ -83,6 +82,7 @@ const Play = () => {
     // Don't add empty names
     if (!currentPlayerName.trim()) return;
 
+    // Update
     setPlayerNames((playerNames) => [...playerNames, currentPlayerName]);
 
     setCurrentPlayerName("");
