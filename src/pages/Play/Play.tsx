@@ -26,6 +26,8 @@ const Play = () => {
 
   const [gameStep, setGameStep] = useState<GameStage>("stage_1_setup");
 
+  const [revealWordToPlayer, setRevealWordToPlayer] = useState<boolean>(false);
+
   const toggleCategory = (category: string) => {
     setSelectedCategories(
       (prev) =>
@@ -78,6 +80,7 @@ const Play = () => {
     // Don't add empty names
     if (!currentPlayerName.trim()) return;
 
+    // Create new array of players with updated player name
     const updatePlayers = players.map((player, index) => {
       if (currentPlayerNumber - 1 === index) {
         return { ...player, playerName: currentPlayerName };
@@ -86,9 +89,19 @@ const Play = () => {
       }
     });
 
+    // Add player name to player array
     setPlayers(updatePlayers);
+
+    // Reset player name for next player
     setCurrentPlayerName("");
 
+    setRevealWordToPlayer(true);
+  };
+
+  const handleSubmitRevealWord = () => {
+    setRevealWordToPlayer(false);
+
+    // Check if all player names have been entered
     const allPlayerNamesEntered = checkAllPlayerNamesEntered();
     if (allPlayerNamesEntered) {
       nextStep();
@@ -229,6 +242,9 @@ const Play = () => {
             currentPlayerName={currentPlayerName}
             setCurrentPlayerName={setCurrentPlayerName}
             handleSubmit={handleCurrentPlayerNameSubmit}
+            revealWord={revealWordToPlayer}
+            handleSubmitRevealWord={handleSubmitRevealWord}
+            players={players}
           />
         </>
       )}

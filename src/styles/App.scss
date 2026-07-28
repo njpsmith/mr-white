@@ -261,6 +261,7 @@ input {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  font-size: 18px;
 }
 
 .btn-secondary {
@@ -276,8 +277,12 @@ input {
 
 .btn-primary {
   border-color: #171717;
-  color: #fff;
   background-color: #171717;
+  color: #fff;
+  // border-color: #04f06a;
+  // border-color: #012922;
+  // background-color: #012922;
+  // color: #171717;
 
   &:hover,
   &:focus {
@@ -334,7 +339,8 @@ input {
     min-width: 250px;
     border-radius: 0.375rem;
     border: 1px solid #a6a6a6;
-    padding: 5px 10px 3px;
+    // padding: 5px 10px 3px;
+    padding: 8px 10px 6px;
 
     @media (max-width: 600px) {
       width: 100%;
