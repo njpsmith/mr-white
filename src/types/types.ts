@@ -15,3 +15,9 @@ export type WordCategory = {
   name: string;
   words: WordPair[];
 };
+
+export type Player = {
+  id: number;
+  playerName: string;
+  word: string;
+};

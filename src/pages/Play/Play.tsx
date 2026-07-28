@@ -2,18 +2,30 @@ import { useState, useEffect } from "react";
 import { categories } from "../../constants/categories";
 import GameSetup from "./gameSteps/GameSetup";
 import AssignRolesAndWords from "./gameSteps/AssignRolesAndWords";
-import type { GameStage, WordPair, WordCategory } from "../../types/types";
+import type {
+  GameStage,
+  WordPair,
+  WordCategory,
+  Player,
+} from "../../types/types";
 import { words } from "../../services/wordsApi";
 
 const Play = () => {
-  const [playerCount, setPlayerCount] = useState(2);
+  // Delete
+  const [playerCount, setPlayerCount] = useState(6);
+
+  // Delete
+  const [playerNames, setPlayerNames] = useState([]);
+
+  const [players, setPlayers] = useState<Player[]>([]);
+
   const [currentPlayerNumber, setCurrentPlayerNumber] = useState(1);
+  const [currentPlayerName, setCurrentPlayerName] = useState(""); // For adding names
+
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     ...categories,
   ]);
-
-  const [currentPlayerName, setCurrentPlayerName] = useState("");
-  const [playerNames, setPlayerNames] = useState([]);
+  const [selectedWord, setSelectedWord] = useState<WordPair>();
 
   const [gameStep, setGameStep] = useState<GameStage>("stage_1_setup");
 
@@ -81,27 +93,22 @@ const Play = () => {
     }
   };
 
-  const getRandomItem = (array) => {
+  function getRandomItem<T>(array: T[]): T {
     const randomIndex = Math.floor(Math.random() * array.length);
     return array[randomIndex];
-  };
+  }
 
-  //////
-  function getWordsFromSelectedCategories(
+  const getWordsFromSelectedCategories = (
     categories: WordCategory[],
     selectedCategories: string[],
-  ): WordPair[] {
+  ): WordPair[] => {
     return categories
       .filter((category) => selectedCategories.includes(category.id))
       .flatMap((category) => category.words);
-  }
+  };
 
   const selectWord = () => {
     // Filter word list to include only selected categories
-    const filteredWords = words.filter((category) =>
-      selectedCategories.includes(category.id),
-    );
-
     // Flatten the words array to remove categories
     const availableWords = getWordsFromSelectedCategories(
       words,
@@ -110,13 +117,36 @@ const Play = () => {
 
     // Now select a random word for this category
     const selectedWord = getRandomItem(availableWords);
-
-    console.log("selectedWord", selectedWord);
+    return selectedWord;
   };
 
-  // useEffect(() => {
-  //   console.log("tyaya", selectedCategories);
-  // }, [selectedCategories]);
+  const assignRolesToPlayers = (word: WordPair) => {
+    const mrWhiteIndex = Math.floor(Math.random() * playerCount);
+
+    // Create array of players
+    // Assign roles and words
+    const players = Array.from({ length: playerCount }, (_, index) => ({
+      id: index + 1,
+      playerName: "",
+      word: mrWhiteIndex === index ? word.undercoverWord : word.civilianWord,
+      role: mrWhiteIndex === index ? "MR_WHITE" : "CIVILIAN",
+    }));
+
+    // console.log("🚀 ~ assignRolesToPlayers ~ players:", players);
+    // console.log("🚀 ~ assignRolesToPlayers ~ selectedWord:", word);
+
+    return players;
+  };
+
+  const startRound = () => {
+    const word = selectWord();
+    const players = assignRolesToPlayers(word);
+
+    console.log("🚀 ~ startRound ~ players:", players);
+
+    setSelectedWord(selectedWord);
+    setPlayers(players);
+  };
 
   return (
     <>
@@ -127,7 +157,7 @@ const Play = () => {
           selectedCategories={selectedCategories}
           categories={categories}
           toggleCategory={toggleCategory}
-          startRound={nextStep}
+          startRound={startRound}
           selectWord={selectWord}
         />
       )}
