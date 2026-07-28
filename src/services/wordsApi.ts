@@ -18,6 +18,27 @@ export const words: WordCategory[] = [
         civilianWord: "Parmesan",
         undercoverWord: "Grana Padano",
       },
+    ],
+  },
+];
+export const wordsOLD: WordCategory[] = [
+  // Specifics
+  {
+    id: "specifics",
+    name: "Specific to Castiglioncello Crew",
+    words: [
+      {
+        civilianWord: "Tuscany",
+        undercoverWord: "Sicily",
+      },
+      {
+        civilianWord: "Provolone",
+        undercoverWord: "Prosciutto",
+      },
+      {
+        civilianWord: "Parmesan",
+        undercoverWord: "Grana Padano",
+      },
       {
         civilianWord: "Witches",
         undercoverWord: "Wizard",

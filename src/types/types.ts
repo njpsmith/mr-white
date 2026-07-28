@@ -3,7 +3,8 @@ export type GameStage =
   | "stage_2_assignRolesAndWords"
   | "stage_3_vote"
   | "stage_4_reveal"
-  | "stage_5_gameOver";
+  | "stage_5_gameOver"
+  | "no_words_remaining";
 
 export type WordPair = {
   civilianWord: string;

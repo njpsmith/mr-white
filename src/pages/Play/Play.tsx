@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { categories } from "../../constants/categories";
 import GameSetup from "./gameSteps/GameSetup";
 import AssignRolesAndWords from "./gameSteps/AssignRolesAndWords";
+import NoWordsRemaining from "./gameSteps/NoWordsRemaining";
 import type {
   GameStage,
   WordPair,
@@ -26,6 +27,7 @@ const Play = () => {
     ...categories,
   ]);
   const [selectedWord, setSelectedWord] = useState<WordPair>();
+  // const [storedWords, setStoredWords] = useState<string[]>([]);
 
   const [gameStep, setGameStep] = useState<GameStage>("stage_1_setup");
 
@@ -98,13 +100,46 @@ const Play = () => {
     return array[randomIndex];
   }
 
+  const storeWord = (word: WordPair) => {
+    console.log("🚀 ~ storing Word ~ word:", word);
+    if (!!word) {
+      const storedWords = JSON.parse(localStorage.getItem("storedWords")) || [];
+      const updatedWords = [...storedWords, word];
+      localStorage.setItem("storedWords", JSON.stringify(updatedWords));
+    }
+  };
+
+  const filterUsedWords = (
+    availableWords: WordPair[],
+    storedWords: WordPair[],
+  ): WordPair[] => {
+    if (!storedWords) {
+      return availableWords;
+    } else {
+      return availableWords.filter(
+        (availableWord) =>
+          !storedWords.some(
+            (storedWord) =>
+              storedWord.civilianWord === availableWord.civilianWord &&
+              storedWord.undercoverWord === availableWord.undercoverWord,
+          ),
+      );
+    }
+  };
+
   const getWordsFromSelectedCategories = (
     categories: WordCategory[],
     selectedCategories: string[],
   ): WordPair[] => {
-    return categories
+    const storedWords = JSON.parse(localStorage.getItem("storedWords"));
+
+    const filteredWords = categories
       .filter((category) => selectedCategories.includes(category.id))
       .flatMap((category) => category.words);
+
+    const filteredUsedWords = filterUsedWords(filteredWords, storedWords); // Filter out words in localStorage
+
+    return filteredUsedWords;
   };
 
   const selectWord = () => {
@@ -121,10 +156,10 @@ const Play = () => {
   };
 
   const assignRolesToPlayers = (word: WordPair) => {
+    console.log("🚀 ~ yyy assignRolesToPlayers ~ word:", word);
     const mrWhiteIndex = Math.floor(Math.random() * playerCount);
 
-    // Create array of players
-    // Assign roles and words
+    // Create array of players and assign roles and words
     const players = Array.from({ length: playerCount }, (_, index) => ({
       id: index + 1,
       playerName: "",
@@ -132,24 +167,40 @@ const Play = () => {
       role: mrWhiteIndex === index ? "MR_WHITE" : "CIVILIAN",
     }));
 
-    // console.log("🚀 ~ assignRolesToPlayers ~ players:", players);
-    // console.log("🚀 ~ assignRolesToPlayers ~ selectedWord:", word);
-
     return players;
   };
 
   const startRound = () => {
     const word = selectWord();
+
+    if (!word) {
+      setGameStep("no_words_remaining");
+      return;
+    }
+
+    storeWord(word); // Store in localStorage
     const players = assignRolesToPlayers(word);
 
     console.log("🚀 ~ startRound ~ players:", players);
 
-    setSelectedWord(selectedWord);
+    setSelectedWord(word);
     setPlayers(players);
+    nextStep();
+  };
+
+  const resetWordList = () => {
+    localStorage.clear();
+    setGameStep("stage_1_setup");
   };
 
   return (
     <>
+      {gameStep === "no_words_remaining" && (
+        <>
+          <NoWordsRemaining resetWordList={resetWordList} />
+        </>
+      )}
+
       {gameStep === "stage_1_setup" && (
         <GameSetup
           playerCount={playerCount}
@@ -163,17 +214,30 @@ const Play = () => {
       )}
 
       {gameStep === "stage_2_assignRolesAndWords" && (
-        <AssignRolesAndWords
-          playerCount={playerCount}
-          currentPlayerNumber={currentPlayerNumber}
-          currentPlayerName={currentPlayerName}
-          setCurrentPlayerName={setCurrentPlayerName}
-          nextStep={nextStep}
-          handleSubmit={handleCurrentPlayerNameSubmit}
-        />
+        <>
+          <div>
+            selectedWord civilianWord: {selectedWord?.civilianWord} <br />
+            selectedWord undercoverWord: {selectedWord?.undercoverWord} <br />
+            Stage 3
+          </div>
+          <AssignRolesAndWords
+            playerCount={playerCount}
+            currentPlayerNumber={currentPlayerNumber}
+            currentPlayerName={currentPlayerName}
+            setCurrentPlayerName={setCurrentPlayerName}
+            nextStep={nextStep}
+            handleSubmit={handleCurrentPlayerNameSubmit}
+          />
+        </>
       )}
 
-      {gameStep === "stage_3_vote" && <div>Stage 3</div>}
+      {gameStep === "stage_3_vote" && (
+        <div>
+          selectedWord civilianWord: {selectedWord?.civilianWord} <br />
+          selectedWord undercoverWord: {selectedWord?.undercoverWord} <br />
+          Stage 3
+        </div>
+      )}
 
       {gameStep === "stage_4_reveal" && <div>Stage 4</div>}
 
