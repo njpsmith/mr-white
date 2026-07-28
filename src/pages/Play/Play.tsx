@@ -13,10 +13,6 @@ import { words } from "../../services/wordsApi";
 
 const Play = () => {
   const [playerCount, setPlayerCount] = useState(2); // Controlled input field
-
-  // Delete
-  // const [playerNames, setPlayerNames] = useState([]);
-
   const [players, setPlayers] = useState<Player[]>([]);
 
   const [currentPlayerNumber, setCurrentPlayerNumber] = useState(1);
@@ -82,14 +78,21 @@ const Play = () => {
     // Don't add empty names
     if (!currentPlayerName.trim()) return;
 
-    // Update
-    setPlayerNames((playerNames) => [...playerNames, currentPlayerName]);
+    const updatePlayers = players.map((player, index) => {
+      if (currentPlayerNumber - 1 === index) {
+        return { ...player, playerName: currentPlayerName };
+      } else {
+        return player;
+      }
+    });
 
+    setPlayers(updatePlayers);
     setCurrentPlayerName("");
 
     const allPlayerNamesEntered = checkAllPlayerNamesEntered();
     if (allPlayerNamesEntered) {
       nextStep();
+      console.log("Players list", players);
     } else {
       advanceCurrentPlayerNumber();
     }
@@ -225,7 +228,6 @@ const Play = () => {
             currentPlayerNumber={currentPlayerNumber}
             currentPlayerName={currentPlayerName}
             setCurrentPlayerName={setCurrentPlayerName}
-            nextStep={nextStep}
             handleSubmit={handleCurrentPlayerNameSubmit}
           />
         </>
@@ -233,6 +235,10 @@ const Play = () => {
 
       {gameStep === "stage_3_vote" && (
         <div>
+          Playas:{" "}
+          {players.map((p) => (
+            <p>{p.playerName}</p>
+          ))}
           selectedWord civilianWord: {selectedWord?.civilianWord} <br />
           selectedWord undercoverWord: {selectedWord?.undercoverWord} <br />
           Stage 3
@@ -243,7 +249,7 @@ const Play = () => {
 
       {gameStep === "stage_5_gameOver" && <div>Stage 5</div>}
 
-      <pre>{JSON.stringify(playerNames, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(playerNames, null, 2)}</pre> */}
     </>
   );
 };
