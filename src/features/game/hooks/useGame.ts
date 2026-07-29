@@ -1,12 +1,12 @@
 import { useState } from "react";
-import {
-  selectWord,
-  storeWord,
-  assignRolesToPlayers,
-} from "../services/services";
+import { selectWord } from "../services/game/selectWord";
+import { assignRolesAndWordsToPlayers } from "../services/game/assignWordsAndRoles";
+
+import { storeWord } from "../services/storage/storedWords";
+
 import type { WordPair, Player, GameStage } from "../../../types/types";
 import { categories } from "../../../constants/categories";
-import { words } from "../services/wordsApi";
+import { words } from "../data/wordsApi";
 
 export const useGame = () => {
   const [fullWordList, setFullWordList] = useState(words);
@@ -116,7 +116,7 @@ export const useGame = () => {
     }
 
     storeWord(word); // Store in localStorage
-    const players = assignRolesToPlayers(word, playerCount);
+    const players = assignRolesAndWordsToPlayers(word, playerCount);
 
     console.log("🚀 ~ startRound ~ players:", players);
 

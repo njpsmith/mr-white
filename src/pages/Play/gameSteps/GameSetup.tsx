@@ -1,7 +1,7 @@
 import { capitalizeFirstLetter } from "../../../utils/commonUtils";
 // import { Dispatch, SetStateAction } from "react";
-import { selectWord } from "../../../features/game/services/services";
-import type { WordPair, WordCategory } from "../../../types/types";
+import { selectWord } from "../../../features/game/services/game/selectWord";
+import type { WordCategory } from "../../../types/types";
 
 const GameSetup = ({
   playerCount,
