@@ -9,6 +9,7 @@ const GameSetup = ({
   toggleCategory,
   startRound,
   selectWord,
+  fullWordList,
 }: {
   playerCount: number;
   categories: string[];
@@ -94,7 +95,7 @@ const GameSetup = ({
           className="btn btn-primary w-full mt-8"
           onClick={() => {
             startRound();
-            selectWord();
+            selectWord(fullWordList, selectedCategories);
             // console.log("selectedCategories", selectedCategories);
           }}
         >

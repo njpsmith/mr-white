@@ -1,4 +1,4 @@
-import type { WordPair, WordCategory } from "../types/types";
+import type { WordPair, WordCategory } from "../../../types/types";
 
 // export const words: WordCategory[] = [
 //   // Specifics
