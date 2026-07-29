@@ -2,22 +2,7 @@ import { categories } from "../../constants/categories";
 import GameSetup from "./gameSteps/GameSetup";
 import AssignRolesAndWords from "./gameSteps/AssignRolesAndWords";
 import NoWordsRemaining from "./gameSteps/NoWordsRemaining";
-// import type {
-//   GameStage,
-//   WordPair,
-//   WordCategory,
-//   Player,
-// } from "../../types/types";
-// import { words } from "../../features/game/services/wordsApi";
 import { useGame } from "../../features/game/hooks/useGame";
-import {
-  // getRandomItem,
-  // storeWord,
-  // filterUsedWords,
-  // getWordsFromSelectedCategories,
-  selectWord,
-  // assignRolesToPlayers,
-} from "../../features/game/services/services";
 
 const Play = () => {
   const game = useGame();
@@ -37,9 +22,9 @@ const Play = () => {
     setCurrentPlayerName,
 
     toggleCategory,
-    nextStep,
-    checkAllPlayerNamesEntered,
-    advanceCurrentPlayerNumber,
+    // nextStep,
+    // checkAllPlayerNamesEntered,
+    // advanceCurrentPlayerNumber,
     handleCurrentPlayerNameSubmit,
     handleSubmitRevealWord,
     startRound,
@@ -62,7 +47,6 @@ const Play = () => {
           categories={categories}
           toggleCategory={toggleCategory}
           startRound={startRound}
-          selectWord={selectWord}
           fullWordList={fullWordList}
         />
       )}

@@ -1,5 +1,7 @@
 import { capitalizeFirstLetter } from "../../../utils/commonUtils";
 // import { Dispatch, SetStateAction } from "react";
+import { selectWord } from "../../../features/game/services/services";
+import type { WordPair, WordCategory } from "../../../types/types";
 
 const GameSetup = ({
   playerCount,
@@ -8,7 +10,6 @@ const GameSetup = ({
   categories,
   toggleCategory,
   startRound,
-  selectWord,
   fullWordList,
 }: {
   playerCount: number;
@@ -17,6 +18,7 @@ const GameSetup = ({
   setPlayerCount: any;
   selectedCategories: any;
   startRound: () => void;
+  fullWordList: WordCategory[];
   // setPlayerCount: Dispatch<SetStateAction<string[]>>;
 }) => (
   <>
@@ -96,7 +98,6 @@ const GameSetup = ({
           onClick={() => {
             startRound();
             selectWord(fullWordList, selectedCategories);
-            // console.log("selectedCategories", selectedCategories);
           }}
         >
           Start round →

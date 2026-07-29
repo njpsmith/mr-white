@@ -3,9 +3,6 @@ import {
   selectWord,
   storeWord,
   assignRolesToPlayers,
-  getRandomItem,
-  filterUsedWords,
-  getWordsFromSelectedCategories,
 } from "../services/services";
 import type { WordPair, Player, GameStage } from "../../../types/types";
 import { categories } from "../../../constants/categories";
