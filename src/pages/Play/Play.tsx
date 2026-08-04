@@ -2,6 +2,10 @@ import { categories } from "../../constants/categories";
 import GameSetup from "./gameSteps/GameSetup";
 import AssignRolesAndWords from "./gameSteps/AssignRolesAndWords";
 import NoWordsRemaining from "./gameSteps/NoWordsRemaining";
+import { PreVote } from "./gameSteps/PreVote";
+import { Vote } from "./gameSteps/Vote";
+import { IncorrectGuess } from "./gameSteps/IncorrectGuess";
+import { CorrectGuess } from "./gameSteps/CorrectGuess";
 import { useGame } from "../../features/game/hooks/useGame";
 
 const Play = () => {
@@ -17,18 +21,19 @@ const Play = () => {
     selectedWord,
     revealWordToPlayer,
     fullWordList,
+    currentEliminatedPlayer,
 
     setPlayerCount,
     setCurrentPlayerName,
 
+    nextStep,
     toggleCategory,
-    // nextStep,
-    // checkAllPlayerNamesEntered,
-    // advanceCurrentPlayerNumber,
     handleCurrentPlayerNameSubmit,
     handleSubmitRevealWord,
     startRound,
     resetWordList,
+    eliminatePlayer,
+    resetGame,
   } = game;
 
   return (
@@ -71,7 +76,7 @@ const Play = () => {
         </>
       )}
 
-      {gameStep === "stage_3_vote" && (
+      {gameStep === "stage_3_pre_vote" && (
         <div>
           Playas:{" "}
           {players.map((p, index) => (
@@ -79,13 +84,30 @@ const Play = () => {
           ))}
           selectedWord civilianWord: {selectedWord?.civilianWord} <br />
           selectedWord undercoverWord: {selectedWord?.undercoverWord} <br />
-          Stage 3
+          <br />
+          <br />
+          <PreVote nextStep={nextStep} />
         </div>
       )}
 
-      {gameStep === "stage_4_reveal" && <div>Stage 4</div>}
+      {gameStep === "stage_4_vote" && (
+        <Vote players={players} eliminatePlayer={eliminatePlayer} />
+      )}
 
-      {gameStep === "stage_5_gameOver" && <div>Stage 5</div>}
+      {gameStep === "stage_5_reveal_mr_white_found" && (
+        <CorrectGuess
+          resetGame={resetGame}
+          currentEliminatedPlayer={currentEliminatedPlayer}
+        />
+      )}
+      {gameStep === "stage_5_reveal_incorrect_guess" && (
+        <IncorrectGuess
+          nextStep={nextStep}
+          currentEliminatedPlayer={currentEliminatedPlayer}
+        />
+      )}
+
+      {/* {gameStep === "stage_6_gameOver" && <div>Stage 5</div>} */}
 
       {/* <pre>{JSON.stringify(playerNames, null, 2)}</pre> */}
     </>

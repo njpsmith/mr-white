@@ -1,9 +1,11 @@
 export type GameStage =
   | "stage_1_setup"
   | "stage_2_assignRolesAndWords"
-  | "stage_3_vote"
-  | "stage_4_reveal"
-  | "stage_5_gameOver"
+  | "stage_3_pre_vote"
+  | "stage_4_vote"
+  | "stage_5_reveal_mr_white_found"
+  | "stage_5_reveal_incorrect_guess"
+  // | "stage_6_gameOver"
   | "no_words_remaining";
 
 export type WordPair = {
