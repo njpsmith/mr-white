@@ -75,7 +75,6 @@ export const useGame = () => {
   const increasePlayerCount = () => {
     setPlayerCount(playerCount + 1);
   };
-
   const editPlayerCount = (number: number) => {
     setPlayerCount(number);
   };
@@ -118,6 +117,14 @@ export const useGame = () => {
     setRevealWordToPlayer(true);
   };
 
+  const allPlayersHaveNames = players.every(
+    (player) => player.playerName.trim() !== "",
+  );
+
+  const handleRevealWordButton = () => {
+    setRevealWordToPlayer(true);
+  };
+
   const handleSubmitRevealWord = () => {
     setRevealWordToPlayer(false);
 
@@ -143,12 +150,16 @@ export const useGame = () => {
     }
 
     storeWord(word); // Store in localStorage
-    const players = assignRolesAndWordsToPlayers(word, playerCount);
+    const playersWithRolesAndWords = assignRolesAndWordsToPlayers(
+      word,
+      playerCount,
+      players,
+    );
 
-    console.log("🚀 ~ startRound ~ players:", players);
+    console.log("🚀 ~ startRound ~ players:", playersWithRolesAndWords);
 
     setSelectedWord(word);
-    setPlayers(players);
+    setPlayers(playersWithRolesAndWords);
     nextStep();
   };
 
@@ -158,8 +169,9 @@ export const useGame = () => {
   };
 
   const eliminatePlayer = (player: Player) => {
-    // console.log("elim", player);
     setCurrentEliminatedPlayer(player);
+
+    console.log("🚀 ~ eliminatePlayer ~ players:", players);
 
     // check if player is mr white
     // if so, display 'well done' screen and end game
@@ -179,10 +191,6 @@ export const useGame = () => {
           return p;
         }
       });
-      console.log(
-        "🚀 ~ ppp HAS IT FIXED? eliminatePlayer ~ updatedPlayers:",
-        updatedPlayers,
-      );
 
       setPlayers(updatedPlayers);
 
@@ -197,17 +205,28 @@ export const useGame = () => {
     }
   };
 
-  const resetGame = () => {
-    console.log("reseting game now boss. Players:", players);
+  const resetGame = ({
+    useExistingPlayers = true,
+  }: {
+    useExistingPlayers: boolean;
+  }) => {
+    console.log("reseting game now boss");
+    console.log("🚀 ~ resetGame ~ players:", players);
 
-    // Clear roles of players
-    const resettedPlayers = players.map((p) => {
-      return { ...p, eliminated: false, role: undefined, word: undefined };
-    });
+    // Clear roles of players and reset names if 'useExistingPlayers' dictates
+    const resettedPlayers = useExistingPlayers
+      ? players.map((player) => ({
+          ...player,
+          eliminated: false,
+          role: undefined,
+          word: undefined,
+        }))
+      : [];
     console.log("🚀 ~ resetGame ~ resettedPlayers:", resettedPlayers);
-    setCurrentPlayerNumber(1);
 
     setPlayers(resettedPlayers);
+
+    setCurrentPlayerNumber(1);
     setCurrentPlayerName("");
     setGameStep("stage_1_setup");
   };
@@ -223,6 +242,7 @@ export const useGame = () => {
     revealWordToPlayer,
     fullWordList,
     currentEliminatedPlayer,
+    allPlayersHaveNames,
 
     decreasePlayerCount,
     increasePlayerCount,
@@ -235,6 +255,7 @@ export const useGame = () => {
     advanceCurrentPlayerNumber,
     handleCurrentPlayerNameSubmit,
     handleSubmitRevealWord,
+    handleRevealWordButton,
     startRound,
     resetWordList,
     eliminatePlayer,

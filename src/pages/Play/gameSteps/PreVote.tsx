@@ -5,11 +5,10 @@ export const PreVote = ({ nextStep }) => {
         <h2 className="font-semibold tracking-tight | mt-8 md:mt-12 | text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem]">
           Describe your word in one sentence.
         </h2>
-        <p>
-          Go round the table. When you're ready to vote, hit the vote button.
-        </p>
+        <p>Go round the table, taking turns to describe your word.</p>
+        <p>When you're ready to vote, hit the vote button.</p>
 
-        <button className="btn btn-primary" onClick={() => nextStep()}>
+        <button className="btn btn-primary mt-4" onClick={() => nextStep()}>
           Vote for Mr. White →
         </button>
       </div>

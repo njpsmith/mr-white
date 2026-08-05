@@ -1,6 +1,7 @@
 import type { Player } from "../../../types/types";
 
 const AssignRolesAndWords = ({
+  players,
   playerCount,
   currentPlayerNumber,
   currentPlayerName,
@@ -8,8 +9,10 @@ const AssignRolesAndWords = ({
   handleSubmit,
   revealWord,
   handleSubmitRevealWord,
-  players,
+  handleRevealWordButton,
+  allPlayersHaveNames,
 }: {
+  players: Player[];
   playerCount: number;
   currentPlayer: number;
   submitPlayerName: () => void;
@@ -19,7 +22,8 @@ const AssignRolesAndWords = ({
   currentPlayerNumber: number;
   revealWord: boolean;
   handleSubmitRevealWord: () => void;
-  players: Player[];
+  handleRevealWordButton: () => void;
+  allPlayersHaveNames: boolean;
 }) => {
   return (
     <>
@@ -27,34 +31,49 @@ const AssignRolesAndWords = ({
         <div className="px-5 mb-12 container-narrow text-center">
           {!revealWord ? (
             <>
-              <h2 className="font-semibold tracking-tight | mt-8 md:mt-12 | text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem]">
-                Pass to Player {currentPlayerNumber}
-              </h2>
+              {allPlayersHaveNames ? (
+                <>
+                  <h2 className="font-semibold tracking-tight | mt-8 md:mt-12 | text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem]">
+                    Pass to {players[currentPlayerNumber]?.playerName}
+                  </h2>
+                  <button
+                    onClick={() => handleRevealWordButton()}
+                    className="btn btn-primary w-full min-[601px]:w-auto"
+                  >
+                    Reveal word →
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h2 className="font-semibold tracking-tight | mt-8 md:mt-12 | text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem]">
+                    Pass to Player {currentPlayerNumber}
+                  </h2>
+                  <form onSubmit={handleSubmit}>
+                    <div className="field-group">
+                      <label htmlFor="player_name">
+                        Player {currentPlayerNumber} enter your name:
+                      </label>
 
-              <form onSubmit={handleSubmit}>
-                <div className="field-group">
-                  <label htmlFor="player_name">
-                    Player {currentPlayerNumber} enter your name:
-                  </label>
+                      <input
+                        className="mx-auto"
+                        type="text"
+                        id="player_name"
+                        name="player_name"
+                        placeholder="Name..."
+                        value={currentPlayerName}
+                        onChange={(e) => setCurrentPlayerName(e.target.value)}
+                      />
+                    </div>
 
-                  <input
-                    className="mx-auto"
-                    type="text"
-                    id="player_name"
-                    name="player_name"
-                    placeholder="Name..."
-                    value={currentPlayerName}
-                    onChange={(e) => setCurrentPlayerName(e.target.value)}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn btn-primary w-full min-[601px]:w-auto"
-                >
-                  Submit
-                </button>
-              </form>
+                    <button
+                      type="submit"
+                      className="btn btn-primary w-full min-[601px]:w-auto"
+                    >
+                      Submit
+                    </button>
+                  </form>
+                </>
+              )}
             </>
           ) : (
             <>

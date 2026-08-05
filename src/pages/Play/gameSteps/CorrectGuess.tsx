@@ -1,11 +1,12 @@
 import type { Player } from "../../../types/types";
+import NewGameButtons from "../../../components/NewGameButtons/NewGameButtons";
 
 export const CorrectGuess = ({
-  resetGame,
   currentEliminatedPlayer,
+  resetGame,
 }: {
-  nextStep: () => void;
   currentEliminatedPlayer: Player;
+  resetGame: () => void;
 }) => {
   return (
     <section className="pt-16 pb-16 mb-16 md:pb-24 md:mb-24 border-divider">
@@ -16,9 +17,8 @@ export const CorrectGuess = ({
         <div className="mb-10">
           <h3>{currentEliminatedPlayer?.playerName} was Mr. White!</h3>
         </div>
-        <button className="btn btn-primary" onClick={() => resetGame()}>
-          Play again →
-        </button>
+
+        <NewGameButtons resetGame={resetGame} />
       </div>
     </section>
   );

@@ -23,6 +23,7 @@ const Play = () => {
     revealWordToPlayer,
     fullWordList,
     currentEliminatedPlayer,
+    allPlayersHaveNames,
 
     decreasePlayerCount,
     increasePlayerCount,
@@ -33,6 +34,7 @@ const Play = () => {
     toggleCategory,
     handleCurrentPlayerNameSubmit,
     handleSubmitRevealWord,
+    handleRevealWordButton,
     startRound,
     resetWordList,
     eliminatePlayer,
@@ -75,8 +77,10 @@ const Play = () => {
             setCurrentPlayerName={setCurrentPlayerName}
             handleSubmit={handleCurrentPlayerNameSubmit}
             revealWord={revealWordToPlayer}
+            handleRevealWordButton={handleRevealWordButton}
             handleSubmitRevealWord={handleSubmitRevealWord}
             players={players}
+            allPlayersHaveNames={allPlayersHaveNames}
           />
         </>
       )}
