@@ -11,7 +11,7 @@ import { moreThanTwoPlayersRemaining } from "../../../utils/commonUtils";
 
 export const useGame = () => {
   const [fullWordList, setFullWordList] = useState(words);
-  const [playerCount, setPlayerCount] = useState(2); // Controlled input field
+  const [playerCount, setPlayerCount] = useState(3); // Controlled input field
   const [players, setPlayers] = useState<Player[]>([]);
 
   const [currentPlayerNumber, setCurrentPlayerNumber] = useState(1);
@@ -67,6 +67,17 @@ export const useGame = () => {
       //   setGameStep("stage_1_setup");
       //   break;
     }
+  };
+
+  const decreasePlayerCount = () => {
+    setPlayerCount(playerCount - 1);
+  };
+  const increasePlayerCount = () => {
+    setPlayerCount(playerCount + 1);
+  };
+
+  const editPlayerCount = (number: number) => {
+    setPlayerCount(number);
   };
 
   const checkAllPlayerNamesEntered = () => {
@@ -213,7 +224,9 @@ export const useGame = () => {
     fullWordList,
     currentEliminatedPlayer,
 
-    setPlayerCount,
+    decreasePlayerCount,
+    increasePlayerCount,
+    editPlayerCount,
     setCurrentPlayerName,
 
     toggleCategory,

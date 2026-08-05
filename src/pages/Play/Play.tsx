@@ -24,7 +24,9 @@ const Play = () => {
     fullWordList,
     currentEliminatedPlayer,
 
-    setPlayerCount,
+    decreasePlayerCount,
+    increasePlayerCount,
+    editPlayerCount,
     setCurrentPlayerName,
 
     nextStep,
@@ -48,7 +50,9 @@ const Play = () => {
       {gameStep === "stage_1_setup" && (
         <GameSetup
           playerCount={playerCount}
-          setPlayerCount={setPlayerCount}
+          decreasePlayerCount={decreasePlayerCount}
+          increasePlayerCount={increasePlayerCount}
+          editPlayerCount={editPlayerCount}
           selectedCategories={selectedCategories}
           categories={categories}
           toggleCategory={toggleCategory}
