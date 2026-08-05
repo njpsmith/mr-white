@@ -5,7 +5,7 @@ export type GameStage =
   | "stage_4_vote"
   | "stage_5_reveal_mr_white_found"
   | "stage_5_reveal_incorrect_guess"
-  // | "stage_6_gameOver"
+  | "gameOver_mr_white_wins"
   | "no_words_remaining";
 
 export type WordPair = {
@@ -22,5 +22,7 @@ export type WordCategory = {
 export type Player = {
   id: number;
   playerName: string;
-  word: string;
+  word: string | undefined;
+  role: "MR_WHITE" | "CIVILIAN" | undefined;
+  eliminated: boolean;
 };

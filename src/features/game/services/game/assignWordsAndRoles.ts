@@ -4,6 +4,7 @@ export const assignRolesAndWordsToPlayers = (
   word: WordPair,
   playerCount: number,
 ) => {
+  console.log("ppp ASSIGNING ROLES AND WORDS");
   const mrWhiteIndex = Math.floor(Math.random() * playerCount);
 
   // Create array of players and assign roles and words
@@ -12,6 +13,7 @@ export const assignRolesAndWordsToPlayers = (
     playerName: "",
     word: mrWhiteIndex === index ? word.undercoverWord : word.civilianWord,
     role: mrWhiteIndex === index ? "MR_WHITE" : "CIVILIAN",
+    eliminated: false,
   }));
 
   return players;

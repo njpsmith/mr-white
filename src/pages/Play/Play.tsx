@@ -6,6 +6,7 @@ import { PreVote } from "./gameSteps/PreVote";
 import { Vote } from "./gameSteps/Vote";
 import { IncorrectGuess } from "./gameSteps/IncorrectGuess";
 import { CorrectGuess } from "./gameSteps/CorrectGuess";
+import { MrWhiteWins } from "./gameSteps/MrWhiteWins";
 import { useGame } from "../../features/game/hooks/useGame";
 
 const Play = () => {
@@ -107,7 +108,12 @@ const Play = () => {
         />
       )}
 
-      {/* {gameStep === "stage_6_gameOver" && <div>Stage 5</div>} */}
+      {gameStep === "gameOver_mr_white_wins" && (
+        <MrWhiteWins
+          currentEliminatedPlayer={currentEliminatedPlayer}
+          resetGame={resetGame}
+        />
+      )}
 
       {/* <pre>{JSON.stringify(playerNames, null, 2)}</pre> */}
     </>

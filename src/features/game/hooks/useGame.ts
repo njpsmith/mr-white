@@ -7,12 +7,12 @@ import { storeWord } from "../services/storage/storedWords";
 import type { WordPair, Player, GameStage } from "../../../types/types";
 import { categories } from "../../../constants/categories";
 import { words } from "../data/wordsApi";
+import { moreThanTwoPlayersRemaining } from "../../../utils/commonUtils";
 
 export const useGame = () => {
   const [fullWordList, setFullWordList] = useState(words);
   const [playerCount, setPlayerCount] = useState(2); // Controlled input field
   const [players, setPlayers] = useState<Player[]>([]);
-  const [savedPlayers, setSavedPlayers] = useState<Player[]>([]); // For saving the list of players between rounds
 
   const [currentPlayerNumber, setCurrentPlayerNumber] = useState(1);
   const [currentPlayerName, setCurrentPlayerName] = useState(""); // For adding names
@@ -116,8 +116,8 @@ export const useGame = () => {
       nextStep();
       console.log("Players list", players);
 
-      console.log("saving players!!!", players);
-      setSavedPlayers(players); // save players for future rounds
+      // console.log("saving players!!!", players);
+      // setSavedPlayers(players); // save players for future rounds
     } else {
       advanceCurrentPlayerNumber();
     }
@@ -156,19 +156,47 @@ export const useGame = () => {
       setGameStep("stage_5_reveal_mr_white_found");
     } else {
       // if not, display 'they were not!' and reset round
-      // remove player from players array
-      const updatedPlayers = players.filter(
-        (p) => p.playerName !== player.playerName,
+
+      // set player to eliminated
+      const updatedPlayers = players.map((p) => {
+        if (p.playerName === player.playerName) {
+          return {
+            ...p,
+            eliminated: true,
+          };
+        } else {
+          return p;
+        }
+      });
+      console.log(
+        "🚀 ~ ppp HAS IT FIXED? eliminatePlayer ~ updatedPlayers:",
+        updatedPlayers,
       );
 
       setPlayers(updatedPlayers);
-      setGameStep("stage_5_reveal_incorrect_guess");
+
+      // Check if only two non-eliminated players remain. If so, Mr. White wins
+      const moreThanTwoRemaining = moreThanTwoPlayersRemaining(updatedPlayers);
+      if (moreThanTwoRemaining) {
+        setGameStep("stage_5_reveal_incorrect_guess");
+      } else {
+        // Mr. White wins
+        setGameStep("gameOver_mr_white_wins");
+      }
     }
   };
 
   const resetGame = () => {
-    console.log("reseting game now boss");
-    // setPlayers([])
+    console.log("reseting game now boss. Players:", players);
+
+    // Clear roles of players
+    const resettedPlayers = players.map((p) => {
+      return { ...p, eliminated: false, role: undefined, word: undefined };
+    });
+    console.log("🚀 ~ resetGame ~ resettedPlayers:", resettedPlayers);
+    setCurrentPlayerNumber(1);
+
+    setPlayers(resettedPlayers);
     setCurrentPlayerName("");
     setGameStep("stage_1_setup");
   };

@@ -40,15 +40,20 @@ export const Vote = ({
 
         <div className="elimination-wrapper">
           {players.map((player, index: number) => {
-            return (
-              <button
-                key={index}
-                className="btn btn-primary w-100 mb-4"
-                onClick={() => openModal(player)}
-              >
-                {player.playerName}
-              </button>
-            );
+            if (player.eliminated === false) {
+              // Only display players who are not eliminated
+              return (
+                <button
+                  key={index}
+                  className="btn btn-primary w-100 mb-4"
+                  onClick={() => openModal(player)}
+                >
+                  {player.playerName}
+                </button>
+              );
+            } else {
+              return null;
+            }
           })}
         </div>
 

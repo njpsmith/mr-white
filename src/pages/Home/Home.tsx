@@ -127,8 +127,9 @@ const Home = () => {
               Vote to eliminate one player. Their role is revealed to the table.
             </li>
             <li>
-              If they are Mr. White, the game ends. If they are a civilian, the
-              game continues until Mr. White is found.
+              If the eliminated player is Mr. White, the game ends. If they are
+              a civilian, the game continues until Mr. White is found, or until
+              only two players remain, in which case Mr. White wins.
             </li>
             {/* <li>
               Win: Civilians win by voting out every Undercover and Mr White.
