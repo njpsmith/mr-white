@@ -66,9 +66,9 @@ const Play = () => {
       {gameStep === "stage_2_assignRolesAndWords" && (
         <>
           <div>
-            selectedWord civilianWord: {selectedWord?.civilianWord} <br />
+            {/* selectedWord civilianWord: {selectedWord?.civilianWord} <br />
             selectedWord undercoverWord: {selectedWord?.undercoverWord} <br />
-            Stage 3
+            Stage 3 */}
           </div>
           <AssignRolesAndWords
             playerCount={playerCount}
@@ -85,19 +85,7 @@ const Play = () => {
         </>
       )}
 
-      {gameStep === "stage_3_pre_vote" && (
-        <div>
-          Playas:{" "}
-          {players.map((p, index) => (
-            <p key={index}>{p.playerName}</p>
-          ))}
-          selectedWord civilianWord: {selectedWord?.civilianWord} <br />
-          selectedWord undercoverWord: {selectedWord?.undercoverWord} <br />
-          <br />
-          <br />
-          <PreVote nextStep={nextStep} />
-        </div>
-      )}
+      {gameStep === "stage_3_pre_vote" && <PreVote nextStep={nextStep} />}
 
       {gameStep === "stage_4_vote" && (
         <Vote players={players} eliminatePlayer={eliminatePlayer} />
