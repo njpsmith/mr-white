@@ -133,9 +133,6 @@ export const useGame = () => {
     if (allPlayerNamesEntered) {
       nextStep();
       console.log("Players list", players);
-
-      // console.log("saving players!!!", players);
-      // setSavedPlayers(players); // save players for future rounds
     } else {
       advanceCurrentPlayerNumber();
     }
