@@ -1,13 +1,16 @@
 import { categories } from "../../constants/categories";
-import GameSetup from "./gameSteps/GameSetup";
-import AssignRolesAndWords from "./gameSteps/AssignRolesAndWords";
-import NoWordsRemaining from "./gameSteps/NoWordsRemaining";
-import { PreVote } from "./gameSteps/PreVote";
-import { Vote } from "./gameSteps/Vote";
-import { IncorrectGuess } from "./gameSteps/IncorrectGuess";
-import { CorrectGuess } from "./gameSteps/CorrectGuess";
-import { MrWhiteWins } from "./gameSteps/MrWhiteWins";
 import { useGame } from "../../features/game/hooks/useGame";
+import { allPlayersHaveNames } from "../../utils/gameUtils";
+import {
+  GameSetup,
+  AssignRolesAndWords,
+  NoWordsRemaining,
+  PreVote,
+  Vote,
+  IncorrectGuess,
+  CorrectGuess,
+  MrWhiteWins,
+} from "./gameSteps";
 
 const Play = () => {
   const game = useGame();
@@ -23,7 +26,7 @@ const Play = () => {
     revealWordToPlayer,
     fullWordList,
     currentEliminatedPlayer,
-    allPlayersHaveNames,
+    // allPlayersHaveNames,
 
     decreasePlayerCount,
     increasePlayerCount,
@@ -110,8 +113,6 @@ const Play = () => {
           resetGame={resetGame}
         />
       )}
-
-      {/* <pre>{JSON.stringify(playerNames, null, 2)}</pre> */}
     </>
   );
 };

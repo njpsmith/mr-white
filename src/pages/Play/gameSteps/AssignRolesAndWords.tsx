@@ -1,6 +1,6 @@
 import type { Player } from "../../../types/types";
 
-const AssignRolesAndWords = ({
+export const AssignRolesAndWords = ({
   players,
   playerCount,
   currentPlayerNumber,
@@ -23,18 +23,20 @@ const AssignRolesAndWords = ({
   revealWord: boolean;
   handleSubmitRevealWord: () => void;
   handleRevealWordButton: () => void;
-  allPlayersHaveNames: boolean;
+  allPlayersHaveNames: (players: Player[]) => boolean;
 }) => {
+  const allPlayersHaveNamesSet = allPlayersHaveNames(players);
+
   return (
     <>
       <section className="pt-16 pb-16 mb-16 md:pb-24 md:mb-24 border-divider">
         <div className="px-5 mb-12 container-narrow text-center">
           {!revealWord ? (
             <>
-              {allPlayersHaveNames ? (
+              {allPlayersHaveNamesSet ? (
                 <>
                   <h2 className="font-semibold tracking-tight | mt-8 md:mt-12 | text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem]">
-                    Pass to {players[currentPlayerNumber]?.playerName}
+                    Pass to {players[currentPlayerNumber - 1]?.playerName}
                   </h2>
                   <button
                     onClick={() => handleRevealWordButton()}

@@ -1,4 +1,8 @@
-const NoWordsRemaining = ({ resetWordList }: { resetWordList: () => void }) => {
+export const NoWordsRemaining = ({
+  resetWordList,
+}: {
+  resetWordList: () => void;
+}) => {
   return (
     <section className="pt-16 pb-16 mb-16 md:pb-24 md:mb-24 border-divider">
       <div className="px-5 container-narrow">

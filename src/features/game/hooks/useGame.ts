@@ -1,23 +1,27 @@
 import { useState } from "react";
 import { selectWord } from "../services/game/selectWord";
-import { assignRolesAndWordsToPlayers } from "../services/game/assignWordsAndRoles";
-
 import { storeWord } from "../services/storage/storedWords";
 
 import type { WordPair, Player, GameStage } from "../../../types/types";
 import { categories } from "../../../constants/categories";
 import { words } from "../data/wordsApi";
-import { moreThanTwoPlayersRemaining } from "../../../utils/commonUtils";
+import {
+  moreThanTwoPlayersRemaining,
+  checkAllPlayerNamesEntered,
+  assignRolesAndWordsToPlayers,
+  resetPlayers,
+  changePlayerToEliminated,
+} from "../../../utils/gameUtils";
 import { useWords } from "./useWords";
 
 export const useGame = () => {
   const wordsHook = useWords();
 
   const [fullWordList, setFullWordList] = useState(words);
-  const [playerCount, setPlayerCount] = useState(3); // Controlled input field
+  const [playerCount, setPlayerCount] = useState<number>(3); // Controlled input field
   const [players, setPlayers] = useState<Player[]>([]);
 
-  const [currentPlayerNumber, setCurrentPlayerNumber] = useState(1);
+  const [currentPlayerNumber, setCurrentPlayerNumber] = useState<number>(1);
   const [currentPlayerName, setCurrentPlayerName] = useState(""); // For adding names
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
@@ -86,14 +90,6 @@ export const useGame = () => {
     setPlayerCount(number);
   };
 
-  const checkAllPlayerNamesEntered = () => {
-    if (currentPlayerNumber === playerCount) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   const advanceCurrentPlayerNumber = () => {
     setCurrentPlayerNumber((prevState) => prevState + 1);
   };
@@ -124,10 +120,6 @@ export const useGame = () => {
     setRevealWordToPlayer(true);
   };
 
-  const allPlayersHaveNames = players.every(
-    (player) => player.playerName.trim() !== "",
-  );
-
   const handleRevealWordButton = () => {
     setRevealWordToPlayer(true);
   };
@@ -136,7 +128,10 @@ export const useGame = () => {
     setRevealWordToPlayer(false);
 
     // Check if all player names have been entered
-    const allPlayerNamesEntered = checkAllPlayerNamesEntered();
+    const allPlayerNamesEntered = checkAllPlayerNamesEntered(
+      currentPlayerNumber,
+      playerCount,
+    );
     if (allPlayerNamesEntered) {
       nextStep();
       console.log("Players list", players);
@@ -175,31 +170,24 @@ export const useGame = () => {
   const eliminatePlayer = (player: Player) => {
     setCurrentEliminatedPlayer(player);
 
-    console.log("🚀 ~ eliminatePlayer ~ players:", players);
-
-    // check if player is mr white
-    // if so, display 'well done' screen and end game
+    // Check if player is Mr. White
+    // If so, display 'well done' screen and end game
     if (player.role === "MR_WHITE") {
       setGameStep("stage_5_reveal_mr_white_found");
     } else {
-      // if not, display 'they were not!' and reset round
+      // If not, display 'they were not!' and reset round
 
-      // set player to eliminated
-      const updatedPlayers = players.map((p) => {
-        if (p.playerName === player.playerName) {
-          return {
-            ...p,
-            eliminated: true,
-          };
-        } else {
-          return p;
-        }
+      // Set player to eliminated
+      const updatedPlayers = changePlayerToEliminated({
+        playerToEliminate: player,
+        playersList: players,
       });
 
       setPlayers(updatedPlayers);
 
       // Check if only two non-eliminated players remain. If so, Mr. White wins
       const moreThanTwoRemaining = moreThanTwoPlayersRemaining(updatedPlayers);
+
       if (moreThanTwoRemaining) {
         setGameStep("stage_5_reveal_incorrect_guess");
       } else {
@@ -214,22 +202,13 @@ export const useGame = () => {
   }: {
     useExistingPlayers: boolean;
   }) => {
-    console.log("reseting game now boss");
-    console.log("🚀 ~ resetGame ~ players:", players);
-
     // Clear roles of players and reset names if 'useExistingPlayers' dictates
-    const resettedPlayers = useExistingPlayers
-      ? players.map((player) => ({
-          ...player,
-          eliminated: false,
-          role: undefined,
-          word: undefined,
-        }))
-      : [];
+    const resettedPlayers = resetPlayers(players, useExistingPlayers);
+
+    console.log("reseting game now boss");
     console.log("🚀 ~ resetGame ~ resettedPlayers:", resettedPlayers);
 
     setPlayers(resettedPlayers);
-
     setCurrentPlayerNumber(1);
     setCurrentPlayerName("");
     setGameStep("stage_1_setup");
@@ -246,7 +225,6 @@ export const useGame = () => {
     revealWordToPlayer,
     fullWordList,
     currentEliminatedPlayer,
-    allPlayersHaveNames,
 
     decreasePlayerCount,
     increasePlayerCount,

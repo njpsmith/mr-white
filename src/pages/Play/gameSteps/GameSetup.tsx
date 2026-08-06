@@ -4,7 +4,7 @@ import { capitalizeFirstLetter } from "../../../utils/commonUtils";
 import { selectWord } from "../../../features/game/services/game/selectWord";
 import type { WordCategory } from "../../../types/types";
 
-const GameSetup = ({
+export const GameSetup = ({
   playerCount,
   decreasePlayerCount,
   increasePlayerCount,
