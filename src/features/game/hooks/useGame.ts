@@ -8,8 +8,11 @@ import type { WordPair, Player, GameStage } from "../../../types/types";
 import { categories } from "../../../constants/categories";
 import { words } from "../data/wordsApi";
 import { moreThanTwoPlayersRemaining } from "../../../utils/commonUtils";
+import { useWords } from "./useWords";
 
 export const useGame = () => {
+  const wordsHook = useWords();
+
   const [fullWordList, setFullWordList] = useState(words);
   const [playerCount, setPlayerCount] = useState(3); // Controlled input field
   const [players, setPlayers] = useState<Player[]>([]);
@@ -35,6 +38,10 @@ export const useGame = () => {
           ? prev.filter((item) => item !== category) //remove
           : [...prev, category], // add
     );
+  };
+
+  const returnUserToStage1 = () => {
+    setGameStep("stage_1_setup");
   };
 
   const nextStep = () => {
@@ -161,7 +168,7 @@ export const useGame = () => {
   };
 
   const resetWordList = () => {
-    localStorage.clear();
+    wordsHook.clearUsedWords();
     setGameStep("stage_1_setup");
   };
 
@@ -257,5 +264,6 @@ export const useGame = () => {
     resetWordList,
     eliminatePlayer,
     resetGame,
+    returnUserToStage1,
   };
 };

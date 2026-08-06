@@ -1,8 +1,8 @@
-const NewGameButtons = ({
-  resetGame,
-}: {
+type NewGameButtonsProps = {
   resetGame: ({ useExistingPlayers }: { useExistingPlayers: boolean }) => void;
-}) => {
+};
+
+const NewGameButtons = ({ resetGame }: NewGameButtonsProps) => {
   return (
     <div>
       <button
