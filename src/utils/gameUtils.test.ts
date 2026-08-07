@@ -56,7 +56,28 @@ describe("allPlayersHaveNames", () => {
 });
 
 describe("assignRolesAndWordsToPlayers", () => {
-  //test
+  const wordPair = {
+    civilianWord: "banana",
+    undercoverWord: "apple",
+  };
+
+  const result = assignRolesAndWordsToPlayers(
+    wordPair,
+    playersX3.length,
+    playersX3,
+  );
+
+  it("check all players have a word assigned", () => {
+    expect(result.every((player) => player.word !== undefined)).toBe(true);
+  });
+
+  it("check all players have a role assigned", () => {
+    expect(
+      result.every(
+        (player) => player.role === "MR_WHITE" || player.role === "CIVILIAN",
+      ),
+    ).toBe(true);
+  });
 });
 
 describe("resetPlayers", () => {
