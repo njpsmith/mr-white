@@ -4,7 +4,7 @@ export const moreThanTwoPlayersRemaining = (players: Player[]) => {
   return players.filter((player) => !player.eliminated).length > 2;
 };
 
-export const checkAllPlayerNamesEntered = (
+export const checkIsFinalPlayer = (
   currentPlayerNumber: number,
   playerCount: number,
 ) => {
@@ -63,7 +63,7 @@ export const changePlayerToEliminated = ({
   playersList: Player[];
 }) => {
   const updatedPlayers = playersList.map((p) => {
-    if (p.playerName === playerToEliminate.playerName) {
+    if (p.id === playerToEliminate.id) {
       return {
         ...p,
         eliminated: true,

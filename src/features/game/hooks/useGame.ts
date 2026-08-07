@@ -7,7 +7,7 @@ import { categories } from "../../../constants/categories";
 import { words } from "../data/wordsApi";
 import {
   moreThanTwoPlayersRemaining,
-  checkAllPlayerNamesEntered,
+  checkIsFinalPlayer,
   assignRolesAndWordsToPlayers,
   resetPlayers,
   changePlayerToEliminated,
@@ -128,7 +128,7 @@ export const useGame = () => {
     setRevealWordToPlayer(false);
 
     // Check if all player names have been entered
-    const allPlayerNamesEntered = checkAllPlayerNamesEntered(
+    const allPlayerNamesEntered = checkIsFinalPlayer(
       currentPlayerNumber,
       playerCount,
     );
@@ -233,7 +233,7 @@ export const useGame = () => {
 
     toggleCategory,
     nextStep,
-    checkAllPlayerNamesEntered,
+    checkIsFinalPlayer,
     advanceCurrentPlayerNumber,
     handleCurrentPlayerNameSubmit,
     handleSubmitRevealWord,
